@@ -1,4 +1,5 @@
 import java.util.Scanner;
+import java.util.Arrays;
 
 public class Analyzer {
     public static void main(String[] args){
@@ -10,18 +11,14 @@ public class Analyzer {
         System.out.println("Words in the text: " + countWords(text));
         System.out.println("Sentences in the text: " + countSentences(text));
         System.out.println("Reversed input: " + reverseText(text));
+        System.out.println("Highes occurences words: " + wordCount(text));
 
 
         myScanner.close();
     }
 
     public static int countCharacters(String text){
-        int counter = 0;
-        for(int i = 0; i < text.toCharArray().length; i ++){
-            counter ++;
-        }
-        
-        return counter;
+        return text.length();
     }
 
     public static int countWords(String text){
@@ -31,8 +28,7 @@ public class Analyzer {
     public static int countSentences(String text){
         int counter = 0;
         for(int i = 0; i < countCharacters(text); i++){
-            if(Character.compare(text.charAt(i), '.') == 0 || Character.compare(text.charAt(i), '!') == 0 || 
-                Character.compare(text.charAt(i) , '?') == 0){
+            if(text.charAt(i) == '.' || text.charAt(i) == '!' ||  text.charAt(i) == '?'){
                 counter ++;
             }
         }
@@ -45,5 +41,38 @@ public class Analyzer {
             reversed += text.charAt(i);
         }
         return reversed;
+    }
+
+    public static String wordCount(String text){
+
+        String maxWords = "";
+        text = text.replace(".", "");
+        String[] words = text.toLowerCase().split(" ");
+        int[] count = new int[words.length];
+
+        Arrays.fill(count, 1);
+
+        for(int i = 1; i < words.length; i++){
+            for(int j = 0; j < i; j++){
+                if(words[i].equals(words[j])){
+                    count[i] = count[j] + 1;
+                }
+            }
+        }
+
+        int max = count[0];
+        for(int k = 0; k < count.length; k++){
+            if(count[k] > max){
+                max = count[k];
+            }
+        }
+
+        for(int l = 0; l < count.length; l++){
+            if(count[l] == max){
+                maxWords += words[l] + " ";
+            }
+        }
+
+        return "[ " + maxWords + "] occured " + max + " times.";
     }
 }
