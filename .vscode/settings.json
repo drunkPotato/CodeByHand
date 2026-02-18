@@ -1,4 +1,10 @@
 {
     "java.dependency.packagePresentation": "hierarchical",
-    "java.project.sourcePaths": ["Converters", "Grading System", "Guessing Game", "Text Analyzer"]
+    "java.project.sourcePaths": [
+        "Text Analyzer",
+        "Guessing Game",
+        "Grading System",
+        "Converters",
+        "TicTacToe"
+    ]
 }
