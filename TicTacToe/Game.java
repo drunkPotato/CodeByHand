@@ -15,27 +15,35 @@ public class Game{
         boolean won = false;
         String input = "";
         int position = -1;
-        String Grid = "";
+        String Grid = generateGrid();
 
-        System.out.println(outputGrid("", -1, Grid));
+        // Idea: 
+        // Create a grid with numbers as placeholders
+        // Replace these numbers with X or O in a loop
+
+        // how do to the win check?`
+        // Store inputs with positions and if either one has then you know 
+        
+
+        System.out.println(Grid);
+
         while(!won){
             System.out.println("Enter the position (number)");
             position = myScanner.nextInt();
+            
             myScanner.nextLine();
-            System.out.println("Enter the Symbol ( X or O)");
+            System.out.println("Enter the Symbol (X or O)");
             input = myScanner.nextLine();
 
-            Grid = outputGrid(input, position, Grid);
-            System.out.println(outputGrid(input, position, Grid));
+            Grid = Grid.replace(String.valueOf(position), input);
+            System.out.println(Grid);
 
         }
+        myScanner.close();
     }
 
-    public static String outputGrid(String input, int position, String currentGrid){
+    public static String generateGrid(){
 
-        if(!currentGrid.equals("")){
-            return currentGrid.replace((char)position, (char)input);
-        }
         String Grid = "";
 
         for(int k = 0; k < 3; k++){
@@ -45,13 +53,7 @@ public class Game{
             Grid += "\n";
 
             for(int j = 0; j < 3; j++){
-
-                if(!input.equals("") && ((k * 3) + (j + 1)) == position){
-                    Grid += "|" + input;
-                }
-                else{
-                    Grid += "|" + ((k * 3) + (j + 1));
-                }
+                Grid += "|" + ((k * 3) + (j + 1));
             }
             Grid += "|\n";
 
