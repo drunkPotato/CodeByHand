@@ -1,5 +1,6 @@
 import java.util.Scanner;
 import java.util.Arrays;
+import java.util.InputMismatchException;
 
 public class Game{
     public static void main(String[] args) {
@@ -26,25 +27,29 @@ public class Game{
 
         while(!won){
 
-            //Choose position
-            while(!Grid.contains(String.valueOf(position))){
-                System.out.println("Enter a position on the Grid");
-                position = myScanner.nextInt();
-                myScanner.nextLine();
-            }
-
             //Choose symbol for either player
             if(player1.equals("")  || player2.equals("")){
 
-                System.out.println("Enter a Symbol");
-                if(player1.equals("")){
+                while(Grid.contains(player1) || player1.equals("")){
+                    System.out.println("Enter a for player 1");
                     player1 = String.valueOf(myScanner.nextLine().charAt(0)).toUpperCase();
                 }
-                else{
+                while(Grid.contains(player2) || player2.equals("")){
+                    System.out.println("Enter a symbol for player 2");
                     player2 = String.valueOf(myScanner.nextLine().charAt(0)).toUpperCase();
                 }
             }
 
+            //Choose position
+            while(!Grid.contains(String.valueOf(position))){
+                System.out.println("Enter a position on the Grid");
+                try {
+                    position = myScanner.nextInt();
+                    myScanner.nextLine();
+                } catch (InputMismatchException e) {
+                    myScanner.nextLine(); 
+                }
+            }
 
             // Update the Grid and player
             if(currentplayer.equals("") || currentplayer.equals(player2)){
@@ -54,12 +59,30 @@ public class Game{
             }
 
             Grid = Grid.replace(String.valueOf(position), currentplayer);
-
-            //Check for wins
-            table[position - 1] = currentplayer;
-            won = checkwins(table);
-
             System.out.println(Grid);
+            table[position - 1] = currentplayer;
+            
+            //Game over section
+            //no win situation check.
+            won = true;
+            for(int i = 0; i < table.length; i++){
+                if(table[i].equals("")){
+                    System.out.println("We think the table has an empty element at position " + i);
+                    won = false;
+                }
+            }
+
+            if(won && !checkwins(table)){
+                System.out.println("Game over. No player has won");
+            }
+
+            if(!won){
+                won = checkwins(table);
+            }
+
+            if(checkwins(table)){
+                System.out.println("Congratulations! Player " + currentplayer + " has won!");
+            }
 
         }
         myScanner.close();
@@ -108,6 +131,11 @@ public class Game{
         //diagonal
         if(table[0].equals(table[4]) && table[0].equals(table[8])){
             if(!table[0].equals("")){
+                return true;
+            }
+        }
+        if(table[2].equals(table[4]) && table[2].equals(table[6])){
+            if(!table[2].equals("")){
                 return true;
             }
         }
