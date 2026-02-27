@@ -27,14 +27,17 @@ public class Game{
 
         while(!won){
 
+            //Make player 1 forbidden symbol for player 2
+            //Make 0 forbidden for both players
+
             //Choose symbol for either player
             if(player1.equals("")  || player2.equals("")){
 
-                while(Grid.contains(player1) || player1.equals("")){
+                while(Grid.contains(player1) || player1.equals("") || player1.equals("0")){
                     System.out.println("Enter a for player 1");
                     player1 = String.valueOf(myScanner.nextLine().charAt(0)).toUpperCase();
                 }
-                while(Grid.contains(player2) || player2.equals("")){
+                while(Grid.contains(player2) || player2.equals("") || player2.equals(player1) || player2.equals("0")){
                     System.out.println("Enter a symbol for player 2");
                     player2 = String.valueOf(myScanner.nextLine().charAt(0)).toUpperCase();
                 }
@@ -61,13 +64,12 @@ public class Game{
             Grid = Grid.replace(String.valueOf(position), currentplayer);
             System.out.println(Grid);
             table[position - 1] = currentplayer;
-            
+
             //Game over section
             //no win situation check.
             won = true;
             for(int i = 0; i < table.length; i++){
                 if(table[i].equals("")){
-                    System.out.println("We think the table has an empty element at position " + i);
                     won = false;
                 }
             }
