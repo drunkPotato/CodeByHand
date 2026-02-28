@@ -5,43 +5,48 @@ import java.util.InputMismatchException;
 public class Game{
     public static void main(String[] args) {
         
-        // Idea: 
-        // Create a grid with numbers as placeholders
-        // Replace these numbers with X or O in a loop
+        // New Approach:
+        // Generate a table (Array with 9 elements)
+        // Print Grid due using that table instead of the previous Grid.
+        
 
-        // how do to the win check?`
-        // Store inputs with positions and if either one has then you know 
 
+        //Setup
         Scanner myScanner = new Scanner(System.in);
 
+        boolean gameover = false;
         boolean won = false;
-        int position = -1;
-        String Grid = generateGrid();
-        String player1 = "";
-        String player2 = "";
-        String currentplayer = "";
         String [] table = new String[9];
+
+        int position = -1;
+        char player1 = '\0'; 
+        char player2 = '\0';
+        String currentplayer = "";
         Arrays.fill(table, "");
 
-        System.out.println(Grid);
+        System.out.println(printGrid(table));
+
+        // Chose Symbols for players
+        // They cant choose the same or digits
+        while( player1 == '\0' || Character.isDigit(player1)){
+            System.out.println("Enter a symbol for player 1");
+            String input = myScanner.nextLine();
+
+            if(!input.isEmpty()){
+                player1 = Character.toUpperCase(input.charAt(0));
+            }
+        }
+
+        while(player2 == '\0' || Character.isDigit(player2)){
+            System.out.println("Enter a symbol for player 2");
+            String input = myScanner.nextLine();
+
+            if(!input.isEmpty()){
+                player2 = Character.toUpperCase(input.charAt(0));
+            }
+        }
 
         while(!won){
-
-            //Make player 1 forbidden symbol for player 2
-            //Make 0 forbidden for both players
-
-            //Choose symbol for either player
-            if(player1.equals("")  || player2.equals("")){
-
-                while(Grid.contains(player1) || player1.equals("") || player1.equals("0")){
-                    System.out.println("Enter a for player 1");
-                    player1 = String.valueOf(myScanner.nextLine().charAt(0)).toUpperCase();
-                }
-                while(Grid.contains(player2) || player2.equals("") || player2.equals(player1) || player2.equals("0")){
-                    System.out.println("Enter a symbol for player 2");
-                    player2 = String.valueOf(myScanner.nextLine().charAt(0)).toUpperCase();
-                }
-            }
 
             //Choose position
             while(!Grid.contains(String.valueOf(position))){
@@ -90,7 +95,7 @@ public class Game{
         myScanner.close();
     }
 
-    public static String generateGrid(){
+    public static String printGrid(String[] board){
 
         String Grid = "";
 
@@ -101,7 +106,7 @@ public class Game{
             Grid += "\n";
 
             for(int j = 0; j < 3; j++){
-                Grid += "|" + ((k * 3) + (j + 1));
+                Grid += "|" + (board[(k * 3) + (j + 1) - 1]);
             }
             Grid += "|\n";
 
